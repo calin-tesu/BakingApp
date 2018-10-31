@@ -2,9 +2,11 @@ package com.example.android.bakingapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.example.android.bakingapp.adapters.RecipeAdapter;
 import com.example.android.bakingapp.api.GetDataService;
 import com.example.android.bakingapp.api.RetrofitClientInstance;
 import com.example.android.bakingapp.models.Recipe;
@@ -18,7 +20,9 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private List<Recipe> recipes;
-    private TextView mTestingView;
+    private RecipeAdapter mRecipeAdapter;
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLinearLayoutManager;
 
     @Override
 
@@ -26,7 +30,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTestingView = findViewById(R.id.testing);
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView = findViewById(R.id.rv_recipes);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
 
         //Creating an object of our api interface
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
@@ -39,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
                 recipes = response.body();
-                mTestingView.setText(recipes.get(0).getName());
+                mRecipeAdapter = new RecipeAdapter(recipes);
+                mRecyclerView.setAdapter(mRecipeAdapter);
             }
 
             @Override
