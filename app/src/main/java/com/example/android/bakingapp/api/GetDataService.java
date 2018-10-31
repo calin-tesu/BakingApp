@@ -1,4 +1,4 @@
-package com.example.android.bakingapp.network;
+package com.example.android.bakingapp.api;
 
 import com.example.android.bakingapp.models.Recipe;
 
