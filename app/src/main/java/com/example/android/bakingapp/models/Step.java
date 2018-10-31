@@ -3,90 +3,105 @@ package com.example.android.bakingapp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Step implements Parcelable {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    private int stepID;
+public class Step implements Parcelable
+{
+
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("shortDescription")
+    @Expose
     private String shortDescription;
-    private String fullDescription;
-    private String videoUrl;
-    private String thumbnailUrl;
+    @SerializedName("description")
+    @Expose
+    private String description;
+    @SerializedName("videoURL")
+    @Expose
+    private String videoURL;
+    @SerializedName("thumbnailURL")
+    @Expose
+    private String thumbnailURL;
+    public final static Parcelable.Creator<Step> CREATOR = new Creator<Step>() {
 
-    public Step(int stepID, String shortDescription, String fullDescription, String videoUrl, String thumbnailUrl) {
-        this.stepID = stepID;
-        this.shortDescription = shortDescription;
-        this.fullDescription = fullDescription;
-        this.videoUrl = videoUrl;
-        this.thumbnailUrl = thumbnailUrl;
-    }
 
-    protected Step(Parcel in) {
-        stepID = in.readInt();
-        shortDescription = in.readString();
-        fullDescription = in.readString();
-        videoUrl = in.readString();
-        thumbnailUrl = in.readString();
-    }
-
-    public static final Creator<Step> CREATOR = new Creator<Step>() {
-        @Override
+        @SuppressWarnings({
+                "unchecked"
+        })
         public Step createFromParcel(Parcel in) {
             return new Step(in);
         }
 
-        @Override
         public Step[] newArray(int size) {
-            return new Step[size];
+            return (new Step[size]);
         }
-    };
 
-    public int getStepID() {
-        return stepID;
+    }
+            ;
+
+    protected Step(Parcel in) {
+        this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.shortDescription = ((String) in.readValue((String.class.getClassLoader())));
+        this.description = ((String) in.readValue((String.class.getClassLoader())));
+        this.videoURL = ((String) in.readValue((String.class.getClassLoader())));
+        this.thumbnailURL = ((String) in.readValue((String.class.getClassLoader())));
+    }
+
+    public Step() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getShortDescription() {
         return shortDescription;
     }
 
-    public String getFullDescription() {
-        return fullDescription;
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
     }
 
-    public String getVideoUrl() {
-        return videoUrl;
+    public String getDescription() {
+        return description;
     }
 
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    /**
-     * Describe the kinds of special objects contained in this Parcelable
-     * instance's marshaled representation. For example, if the object will
-     * include a file descriptor in the output of {@link #writeToParcel(Parcel, int)},
-     * the return value of this method must include the
-     * {@link #CONTENTS_FILE_DESCRIPTOR} bit.
-     *
-     * @return a bitmask indicating the set of special object types marshaled
-     * by this Parcelable object instance.
-     */
-    @Override
+    public String getVideoURL() {
+        return videoURL;
+    }
+
+    public void setVideoURL(String videoURL) {
+        this.videoURL = videoURL;
+    }
+
+    public String getThumbnailURL() {
+        return thumbnailURL;
+    }
+
+    public void setThumbnailURL(String thumbnailURL) {
+        this.thumbnailURL = thumbnailURL;
+    }
+
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(id);
+        dest.writeValue(shortDescription);
+        dest.writeValue(description);
+        dest.writeValue(videoURL);
+        dest.writeValue(thumbnailURL);
+    }
+
     public int describeContents() {
         return 0;
     }
 
-    /**
-     * Flatten this object in to a Parcel.
-     *
-     * @param dest  The Parcel in which the object should be written.
-     * @param flags Additional flags about how the object should be written.
-     *              May be 0 or {@link #PARCELABLE_WRITE_RETURN_VALUE}.
-     */
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(stepID);
-        dest.writeString(shortDescription);
-        dest.writeString(fullDescription);
-        dest.writeString(videoUrl);
-        dest.writeString(thumbnailUrl);
-    }
 }
