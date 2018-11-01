@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Recipe implements Parcelable
@@ -17,18 +18,18 @@ public class Recipe implements Parcelable
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("ingredients")
-    @Expose
-    private List<Ingredient> ingredients = null;
-    @SerializedName("steps")
-    @Expose
-    private List<Step> steps = null;
     @SerializedName("servings")
     @Expose
     private Integer servings;
     @SerializedName("image")
     @Expose
     private String image;
+    @SerializedName("ingredients")
+    @Expose
+    private List<Ingredient> ingredients = null;
+    @SerializedName("steps")
+    @Expose
+    private List<Step> steps = null;
     public final static Parcelable.Creator<Recipe> CREATOR = new Creator<Recipe>() {
 
 
@@ -49,10 +50,22 @@ public class Recipe implements Parcelable
     protected Recipe(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
-        in.readList(this.ingredients, (com.example.android.bakingapp.models.Ingredient.class.getClassLoader()));
-        in.readList(this.steps, (com.example.android.bakingapp.models.Step.class.getClassLoader()));
         this.servings = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.image = ((String) in.readValue((String.class.getClassLoader())));
+//        in.readList(this.ingredients, (com.example.android.bakingapp.models.Ingredient.class.getClassLoader()));
+        if (in.readByte() == 0x01) {
+            ingredients = new ArrayList<>();
+            in.readList(ingredients, Ingredient.class.getClassLoader());
+        } else {
+            ingredients = null;
+        }
+//        in.readList(this.steps, (com.example.android.bakingapp.models.Step.class.getClassLoader()));
+        if (in.readByte() == 0x01) {
+            steps = new ArrayList<>();
+            in.readList(steps, Step.class.getClassLoader());
+        } else {
+            steps = null;
+        }
     }
 
     public Recipe() {
@@ -109,10 +122,10 @@ public class Recipe implements Parcelable
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(id);
         dest.writeValue(name);
-        dest.writeList(ingredients);
-        dest.writeList(steps);
         dest.writeValue(servings);
         dest.writeValue(image);
+        dest.writeList(ingredients);
+        dest.writeList(steps);
     }
 
     public int describeContents() {
