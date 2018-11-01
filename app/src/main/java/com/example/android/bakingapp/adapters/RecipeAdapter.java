@@ -7,9 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.android.bakingapp.Constants;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.models.Recipe;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -36,7 +39,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
-        holder.mImageView.setImageResource(R.drawable.ic_broken_image_black_24dp);
+        Recipe currentRecipe = recipeList.get(position);
+        holder.mRecipeNameTv.setText(currentRecipe.getName());
+        Picasso.with(context)
+                .load(Constants.BASE_URL + currentRecipe.getImage())
+                .error(R.drawable.ic_broken_image_black_24dp)
+                .into(holder.mImageView);
     }
 
     @Override
@@ -47,10 +55,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final ImageView mImageView;
+        public final TextView mRecipeNameTv;
 
         public RecipeViewHolder(View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.thumbnail);
+            mRecipeNameTv = itemView.findViewById(R.id.recipe_name);
             itemView.setOnClickListener(this);
         }
 
