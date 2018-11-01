@@ -1,8 +1,9 @@
 package com.example.android.bakingapp;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Recipe> recipes;
     private RecipeAdapter mRecipeAdapter;
     private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLinearLayoutManager;
+    private GridLayoutManager mLayoutManager;
 
     @Override
 
@@ -30,10 +31,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mLinearLayoutManager = new LinearLayoutManager(this);
+        switch (getResources().getConfiguration().orientation) {
+            case Configuration.ORIENTATION_PORTRAIT:
+                mLayoutManager = new GridLayoutManager(this, 1);
+                break;
+            case Configuration.ORIENTATION_LANDSCAPE:
+                mLayoutManager = new GridLayoutManager(this, 2);
+                break;
+        }
+
         mRecyclerView = findViewById(R.id.rv_recipes);
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
+
 
         //Creating an object of our api interface
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);

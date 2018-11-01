@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_margin="16dp"
     app:contentPadding="@dimen/small_margin"
@@ -16,18 +17,20 @@
 
         <ImageView
             android:id="@+id/thumbnail"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="300dp"
+            android:layout_gravity="center"
             android:scaleType="fitXY" />
 
         <TextView
+            android:id="@+id/recipe_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginLeft="@dimen/small_margin"
             android:layout_gravity="center"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-            android:text="kckasjdhkasjfhkjafh" />
+            tools:text = "olo eosjdf" />
 
     </LinearLayout>
 
