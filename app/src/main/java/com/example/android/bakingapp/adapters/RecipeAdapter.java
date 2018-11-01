@@ -1,6 +1,7 @@
 package com.example.android.bakingapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.example.android.bakingapp.Constants;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.models.Recipe;
+import com.example.android.bakingapp.ui.BakingDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -66,7 +68,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         @Override
         public void onClick(View v) {
-
+            int adapterPosition = getAdapterPosition();
+            Recipe currentRecipe = recipeList.get(adapterPosition);
+            Intent intent = new Intent(context, BakingDetailsActivity.class);
+            intent.putExtra("currentRecipe", currentRecipe);
+            context.startActivity(intent);
         }
     }
 
