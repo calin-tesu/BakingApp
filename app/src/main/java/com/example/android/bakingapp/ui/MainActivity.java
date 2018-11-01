@@ -1,4 +1,4 @@
-package com.example.android.bakingapp;
+package com.example.android.bakingapp.ui;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapters.RecipeAdapter;
 import com.example.android.bakingapp.api.GetDataService;
 import com.example.android.bakingapp.api.RetrofitClientInstance;
