@@ -29,8 +29,19 @@ public class Recipe implements Parcelable
     private List<Ingredient> ingredients = null;
     @SerializedName("steps")
     @Expose
-    private List<Step> steps = null;
-    public final static Parcelable.Creator<Recipe> CREATOR = new Creator<Recipe>() {
+    private ArrayList<Step> steps;
+
+    public Recipe(int id, String recipeName, int servings, String image, List<Ingredient> recipeIngredients, ArrayList<Step> recipeSteps)
+    {
+        this.id = id;
+        this.name = recipeName;
+        this.servings = servings;
+        this.image = image;
+        this.ingredients = recipeIngredients;
+        this.steps = recipeSteps;
+    }
+
+    public final static Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
 
 
         @SuppressWarnings({
@@ -68,9 +79,6 @@ public class Recipe implements Parcelable
         }
     }
 
-    public Recipe() {
-    }
-
     public Integer getId() {
         return id;
     }
@@ -95,11 +103,11 @@ public class Recipe implements Parcelable
         this.ingredients = ingredients;
     }
 
-    public List<Step> getSteps() {
+    public ArrayList<Step> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<Step> steps) {
+    public void setSteps(ArrayList<Step> steps) {
         this.steps = steps;
     }
 
@@ -124,8 +132,26 @@ public class Recipe implements Parcelable
         dest.writeValue(name);
         dest.writeValue(servings);
         dest.writeValue(image);
-        dest.writeList(ingredients);
-        dest.writeList(steps);
+//        dest.writeList(ingredients);
+        if (ingredients == null)
+        {
+            dest.writeByte((byte) (0x00));
+        }
+        else
+        {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(ingredients);
+        }
+//        dest.writeList(steps);
+        if (steps == null)
+        {
+            dest.writeByte((byte) (0x00));
+        }
+        else
+        {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(steps);
+        }
     }
 
     public int describeContents() {

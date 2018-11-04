@@ -24,7 +24,7 @@ public class Step implements Parcelable
     @SerializedName("thumbnailURL")
     @Expose
     private String thumbnailURL;
-    public final static Parcelable.Creator<Step> CREATOR = new Creator<Step>() {
+    public final static Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>() {
 
 
         @SuppressWarnings({

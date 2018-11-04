@@ -22,8 +22,8 @@ import java.util.List;
  * Created by Calin Tesu on 10/31/2018.
  */
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
-    private List<Recipe> recipeList;
 
+    private List<Recipe> recipeList;
     private Context context;
 
     public RecipeAdapter(List<Recipe> recipes) {
