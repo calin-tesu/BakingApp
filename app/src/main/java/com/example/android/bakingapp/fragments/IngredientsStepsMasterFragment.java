@@ -15,9 +15,6 @@ import android.widget.Toast;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapters.StepsAdapter;
 import com.example.android.bakingapp.models.Recipe;
-import com.example.android.bakingapp.models.Step;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +31,7 @@ public class IngredientsStepsMasterFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private StepsAdapter stepsAdapter;
     private Recipe recipe;
-    private ArrayList<Step> steps;
+//    private ArrayList<Step> steps;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the fragment
@@ -57,26 +54,15 @@ public class IngredientsStepsMasterFragment extends Fragment {
             recipe = getArguments().getParcelable("currentRecipe");
         }
 
-        steps = new ArrayList<>();
-        steps = recipe.getSteps();
-
         ButterKnife.bind(this, rootView);
 
-//        Bundle bundle = this.getArguments();
-//        if (bundle != null) {
-//            recipe = getArguments().getParcelable("currentRecipe");
-//        }
-//
-//        steps = (ArrayList<Step>) recipe.getSteps();
-
         mStepsRecyclerView.setHasFixedSize(true);
-
         layoutManager = new LinearLayoutManager(getContext());
         mStepsRecyclerView.setLayoutManager(layoutManager);
 
 
 
-        stepsAdapter = new StepsAdapter(steps);
+        stepsAdapter = new StepsAdapter(recipe.getSteps());
         mStepsRecyclerView.setAdapter(stepsAdapter);
 
         mIngredientsHeader.setOnClickListener(new View.OnClickListener() {
