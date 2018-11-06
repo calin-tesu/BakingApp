@@ -7,14 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.fragments.IngredientsStepsMasterFragment;
 import com.example.android.bakingapp.models.Recipe;
-import com.example.android.bakingapp.models.Step;
-
-import java.util.List;
 
 public class BakingDetailsActivity extends AppCompatActivity {
 
     private Recipe recipe;
-    private List<Step> steps;
+    public Bundle currentRecipeBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +20,10 @@ public class BakingDetailsActivity extends AppCompatActivity {
 
         if (getIntent() != null && getIntent().getExtras() != null) {
             recipe = getIntent().getExtras().getParcelable("currentRecipe");
-            steps = recipe.getSteps();
         }
         getSupportActionBar().setTitle(recipe.getName());
 
-        Bundle currentRecipeBundle = new Bundle();
+        currentRecipeBundle = new Bundle();
         currentRecipeBundle.putParcelable("currentRecipe", recipe);
 
         IngredientsStepsMasterFragment ingredientsStepsMasterFragment = new IngredientsStepsMasterFragment();
@@ -35,7 +31,7 @@ public class BakingDetailsActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.master_list_fragment, ingredientsStepsMasterFragment)
+                .replace(R.id.master_list_fragment, ingredientsStepsMasterFragment)
                 .commit();
     }
 }

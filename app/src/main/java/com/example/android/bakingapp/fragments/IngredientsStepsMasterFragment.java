@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapters.StepsAdapter;
@@ -31,6 +31,7 @@ public class IngredientsStepsMasterFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private StepsAdapter stepsAdapter;
     private Recipe recipe;
+    private Bundle currentRecipeBundle;
 //    private ArrayList<Step> steps;
 
     /**
@@ -49,8 +50,8 @@ public class IngredientsStepsMasterFragment extends Fragment {
         //Inflate the fragment layout
         View rootView = inflater.inflate(R.layout.fragment_ingredients_steps_master,container, false);
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
+        currentRecipeBundle = this.getArguments();
+        if (currentRecipeBundle != null) {
             recipe = getArguments().getParcelable("currentRecipe");
         }
 
@@ -60,15 +61,20 @@ public class IngredientsStepsMasterFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         mStepsRecyclerView.setLayoutManager(layoutManager);
 
-
-
         stepsAdapter = new StepsAdapter(recipe.getSteps());
         mStepsRecyclerView.setAdapter(stepsAdapter);
 
         mIngredientsHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "ksdjhfskdhf", Toast.LENGTH_SHORT).show();
+                IngredientsFragment ingredientsFragment = new IngredientsFragment();
+                ingredientsFragment.setArguments(currentRecipeBundle);
+
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .addToBackStack(null)
+                        .replace(R.id.master_list_fragment, ingredientsFragment)
+                        .commit();
             }
         });
 
