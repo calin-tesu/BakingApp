@@ -21,8 +21,16 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
     private Context context;
     public ArrayList<Step> stepsList;
 
-    public StepsAdapter(ArrayList<Step> steps) {
+    private StepAdapterOnClickListener onClickListener;
+
+    public StepsAdapter(StepAdapterOnClickListener clickListener, ArrayList<Step> steps) {
+        onClickListener = clickListener;
         stepsList = steps;
+    }
+
+
+    public interface StepAdapterOnClickListener {
+        void onClick(Step clickedStep);
     }
 
     @NonNull
@@ -57,7 +65,9 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
 
         @Override
         public void onClick(View view) {
-
+            int adapterPosition = getAdapterPosition();
+            Step currentStep = stepsList.get(adapterPosition);
+            onClickListener.onClick(currentStep);
         }
     }
 }

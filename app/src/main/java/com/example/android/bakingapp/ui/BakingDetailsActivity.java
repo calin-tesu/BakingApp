@@ -6,9 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.fragments.IngredientsStepsMasterFragment;
+import com.example.android.bakingapp.fragments.StepFragment;
 import com.example.android.bakingapp.models.Recipe;
+import com.example.android.bakingapp.models.Step;
 
-public class BakingDetailsActivity extends AppCompatActivity {
+public class BakingDetailsActivity extends AppCompatActivity implements IngredientsStepsMasterFragment.OnStepClickListener {
 
     private Recipe recipe;
     public Bundle currentRecipeBundle;
@@ -32,6 +34,21 @@ public class BakingDetailsActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.master_list_fragment, ingredientsStepsMasterFragment)
+                .commit();
+    }
+
+    @Override
+    public void onStepSelected(Step clickedStep) {
+        Bundle stepBundle = new Bundle();
+        stepBundle.putParcelable("currentStep", clickedStep);
+
+        StepFragment stepFragment = new StepFragment();
+        stepFragment.setArguments(stepBundle);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.master_list_fragment, stepFragment)
+                .addToBackStack(null)
                 .commit();
     }
 }
