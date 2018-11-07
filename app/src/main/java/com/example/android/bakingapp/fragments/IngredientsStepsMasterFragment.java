@@ -71,8 +71,9 @@ public class IngredientsStepsMasterFragment extends Fragment {
 
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction()
-                        .addToBackStack(null)
+//                        .addToBackStack(null)
                         .replace(R.id.master_list_fragment, ingredientsFragment)
+                        .addToBackStack(null)
                         .commit();
             }
         });
