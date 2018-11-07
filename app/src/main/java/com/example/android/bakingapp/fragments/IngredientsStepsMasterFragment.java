@@ -32,7 +32,6 @@ public class IngredientsStepsMasterFragment extends Fragment {
     private StepsAdapter stepsAdapter;
     private Recipe recipe;
     private Bundle currentRecipeBundle;
-//    private ArrayList<Step> steps;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the fragment
