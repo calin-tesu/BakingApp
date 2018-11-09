@@ -1,6 +1,7 @@
 package com.example.android.bakingapp.fragments;
 
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -38,6 +39,7 @@ public class StepFragment extends Fragment {
     @BindView(R.id.step_description)
     TextView stepDescription;
     Step currentStep;
+    Uri mediaUri;
 
     @BindView(R.id.player_view)
     SimpleExoPlayerView mPlayerView;
@@ -63,8 +65,8 @@ public class StepFragment extends Fragment {
         stepTitle.setText(currentStep.getShortDescription());
         stepDescription.setText(currentStep.getDescription());
 
-        Uri mediaUri = Uri.parse(currentStep.getVideoURL());
-        initializePlayer(mediaUri);
+        mediaUri = Uri.parse(currentStep.getVideoURL());
+//        initializePlayer(mediaUri);
 
         return rootView;
     }
@@ -92,11 +94,47 @@ public class StepFragment extends Fragment {
         }
     }
 
+    private void releasePlayer() {
+        if (mExoPlayer != null) {
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mExoPlayer.stop();
-        mExoPlayer.release();
-        mExoPlayer = null;
+        releasePlayer();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (Build.VERSION.SDK_INT < 23) {
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initializePlayer(mediaUri);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initializePlayer(mediaUri);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (Build.VERSION.SDK_INT >= 24) {
+            releasePlayer();
+        }
+
+
     }
 }
