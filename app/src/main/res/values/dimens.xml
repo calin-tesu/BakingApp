@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="small_margin">8dp</dimen>
-    <dimen name="exoplayer_layout_height">300dp</dimen>
+    <dimen name="exoplayer_layout_height">200dp</dimen>
 </resources>
