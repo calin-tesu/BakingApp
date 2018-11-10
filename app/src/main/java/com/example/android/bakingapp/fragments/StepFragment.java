@@ -34,15 +34,14 @@ import butterknife.ButterKnife;
  */
 public class StepFragment extends Fragment {
 
-    @BindView(R.id.step_title)
-    TextView stepTitle;
     @BindView(R.id.step_description)
     TextView stepDescription;
+    @BindView(R.id.player_view)
+    SimpleExoPlayerView mPlayerView;
+
     Step currentStep;
     Uri mediaUri;
 
-    @BindView(R.id.player_view)
-    SimpleExoPlayerView mPlayerView;
     private SimpleExoPlayer mExoPlayer;
 
     // Mandatory empty constructor
@@ -62,11 +61,9 @@ public class StepFragment extends Fragment {
             currentStep = getArguments().getParcelable("currentStep");
         }
 
-        stepTitle.setText(currentStep.getShortDescription());
         stepDescription.setText(currentStep.getDescription());
 
         mediaUri = Uri.parse(currentStep.getVideoURL());
-//        initializePlayer(mediaUri);
 
         return rootView;
     }
@@ -82,6 +79,7 @@ public class StepFragment extends Fragment {
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
+            mPlayerView.setUseController(false);
             mPlayerView.setPlayer(mExoPlayer);
 
             // Prepare the MediaSource.
