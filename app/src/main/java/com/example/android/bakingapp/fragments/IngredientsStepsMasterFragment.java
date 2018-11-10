@@ -95,11 +95,18 @@ public class IngredientsStepsMasterFragment extends Fragment implements StepsAda
                 IngredientsFragment ingredientsFragment = new IngredientsFragment();
                 ingredientsFragment.setArguments(currentRecipeBundle);
 
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.master_list_fragment, ingredientsFragment)
-                        .addToBackStack(null)
-                        .commit();
+                if (getResources().getBoolean(R.bool.isTablet)) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.master_list_fragment, ingredientsFragment)
+                            .commit();
+                } else {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.master_list_fragment, ingredientsFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
             }
         });
 

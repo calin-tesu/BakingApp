@@ -31,10 +31,19 @@ public class BakingDetailsActivity extends AppCompatActivity implements Ingredie
         IngredientsStepsMasterFragment ingredientsStepsMasterFragment = new IngredientsStepsMasterFragment();
         ingredientsStepsMasterFragment.setArguments(currentRecipeBundle);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.master_list_fragment, ingredientsStepsMasterFragment)
-                .commit();
+        if (getResources().getBoolean(R.bool.isTablet)) {
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .add(R.id.steps_frag_container, ingredientsStepsMasterFragment)
+                    .commit();
+        } else {
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.master_list_fragment, ingredientsStepsMasterFragment)
+                    .commit();
+        }
     }
 
     @Override
@@ -45,10 +54,17 @@ public class BakingDetailsActivity extends AppCompatActivity implements Ingredie
         StepFragment stepFragment = new StepFragment();
         stepFragment.setArguments(stepBundle);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.master_list_fragment, stepFragment)
-                .addToBackStack(null)
-                .commit();
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.master_list_fragment, stepFragment)
+                    .commit();
+        } else {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.master_list_fragment, stepFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 }
