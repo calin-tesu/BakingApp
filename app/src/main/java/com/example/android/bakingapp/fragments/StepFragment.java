@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
@@ -25,6 +26,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +38,8 @@ public class StepFragment extends Fragment {
 
     @BindView(R.id.step_description)
     TextView stepDescription;
+    @BindView(R.id.thumbnail_step)
+    ImageView thumbnailStepView;
     @BindView(R.id.player_view)
     SimpleExoPlayerView mPlayerView;
 
@@ -61,9 +65,10 @@ public class StepFragment extends Fragment {
             currentStep = getArguments().getParcelable("currentStep");
         }
 
-        stepDescription.setText(currentStep.getDescription());
-
-        mediaUri = Uri.parse(currentStep.getVideoURL());
+        if (currentStep != null) {
+            stepDescription.setText(currentStep.getDescription());
+            mediaUri = Uri.parse(currentStep.getVideoURL());
+        }
 
         return rootView;
     }
@@ -74,21 +79,38 @@ public class StepFragment extends Fragment {
      * @param mediaUri The URI of the sample to play.
      */
     private void initializePlayer(Uri mediaUri) {
-        if (mExoPlayer == null) {
-            // Create an instance of the ExoPlayer.
-            TrackSelector trackSelector = new DefaultTrackSelector();
-            LoadControl loadControl = new DefaultLoadControl();
-            mExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
-            mPlayerView.setUseController(false);
-            mPlayerView.setPlayer(mExoPlayer);
 
-            // Prepare the MediaSource.
-            String userAgent = Util.getUserAgent(getActivity(), "bakingapp");
-            MediaSource mediaSource = new ExtractorMediaSource(mediaUri,
-                    new DefaultDataSourceFactory(getActivity(), userAgent),
-                    new DefaultExtractorsFactory(), null, null);
-            mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
+        //Only display the video if there is a valid url else display an image
+        if (currentStep.getVideoURL() != null && !currentStep.getVideoURL().equals("")) {
+            mPlayerView.setVisibility(View.VISIBLE);
+            thumbnailStepView.setVisibility(View.INVISIBLE);
+            if (mExoPlayer == null) {
+                // Create an instance of the ExoPlayer.
+                TrackSelector trackSelector = new DefaultTrackSelector();
+                LoadControl loadControl = new DefaultLoadControl();
+                mExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
+                mPlayerView.setUseController(false);
+                mPlayerView.setPlayer(mExoPlayer);
+
+                // Prepare the MediaSource.
+                String userAgent = Util.getUserAgent(getActivity(), "bakingapp");
+                MediaSource mediaSource = new ExtractorMediaSource(mediaUri,
+                        new DefaultDataSourceFactory(getActivity(), userAgent),
+                        new DefaultExtractorsFactory(), null, null);
+                mExoPlayer.prepare(mediaSource);
+                mExoPlayer.setPlayWhenReady(true);
+            }
+        } else if (currentStep.getThumbnailURL() != null && !currentStep.getThumbnailURL().equals("")) {
+            mPlayerView.setVisibility(View.INVISIBLE);
+            thumbnailStepView.setVisibility(View.VISIBLE);
+            Picasso.with(getActivity())
+                    .load(currentStep.getThumbnailURL())
+                    .error(R.drawable.ic_broken_image_black_24dp)
+                    .into(thumbnailStepView);
+        } else {
+            mPlayerView.setVisibility(View.INVISIBLE);
+            thumbnailStepView.setVisibility(View.VISIBLE);
+            thumbnailStepView.setImageResource(R.drawable.ic_broken_image_black_24dp);
         }
     }
 
