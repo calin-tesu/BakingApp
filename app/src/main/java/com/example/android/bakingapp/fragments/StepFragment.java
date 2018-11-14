@@ -1,7 +1,6 @@
 package com.example.android.bakingapp.fragments;
 
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,6 +44,8 @@ public class StepFragment extends Fragment {
 
     Step currentStep;
     Uri mediaUri;
+    //Store video time position
+    private long videoTimePosition;
 
     private SimpleExoPlayer mExoPlayer;
 
@@ -69,6 +70,9 @@ public class StepFragment extends Fragment {
             stepDescription.setText(currentStep.getDescription());
             mediaUri = Uri.parse(currentStep.getVideoURL());
         }
+
+        if (savedInstanceState != null)
+            videoTimePosition = savedInstanceState.getLong("video_position");
 
         return rootView;
     }
@@ -98,6 +102,7 @@ public class StepFragment extends Fragment {
                         new DefaultDataSourceFactory(getActivity(), userAgent),
                         new DefaultExtractorsFactory(), null, null);
                 mExoPlayer.prepare(mediaSource);
+                mExoPlayer.seekTo(videoTimePosition);
                 mExoPlayer.setPlayWhenReady(true);
             }
         } else if (currentStep.getThumbnailURL() != null && !currentStep.getThumbnailURL().equals("")) {
@@ -131,7 +136,8 @@ public class StepFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (Build.VERSION.SDK_INT < 23) {
+        videoTimePosition = mExoPlayer.getCurrentPosition();
+        if (Util.SDK_INT < 23) {
             releasePlayer();
         }
     }
@@ -139,22 +145,26 @@ public class StepFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        initializePlayer(mediaUri);
+        if (Util.SDK_INT > 23) initializePlayer(mediaUri);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        initializePlayer(mediaUri);
+        if ((Util.SDK_INT <= 23 || mExoPlayer == null)) initializePlayer(mediaUri);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (Build.VERSION.SDK_INT >= 24) {
+        if (Util.SDK_INT >= 24) {
             releasePlayer();
         }
+    }
 
-
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong("video_position", videoTimePosition);
     }
 }
