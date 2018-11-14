@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.android.bakingapp.Constants;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.models.Ingredient;
 import com.example.android.bakingapp.models.Recipe;
@@ -38,7 +39,7 @@ public class IngredientsFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            recipe = getArguments().getParcelable("currentRecipe");
+            recipe = getArguments().getParcelable(Constants.KEY_CURRENT_RECIPE);
         }
 
         List<Ingredient> ingredientList = recipe.getIngredients();
@@ -59,5 +60,11 @@ public class IngredientsFragment extends Fragment {
         ingredientsTv.setText(ingredientsString);
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(Constants.KEY_CURRENT_RECIPE, recipe);
     }
 }

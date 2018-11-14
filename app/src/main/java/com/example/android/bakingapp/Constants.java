@@ -9,4 +9,7 @@ public class Constants {
 
     //Key for storing the state information about the ingredients list
     public static final String KEY_INGREDIENTS_LIST = "ingredients_list";
+
+    //Key for storing the state information about the current recipe
+    public static final String KEY_CURRENT_RECIPE = "current_recipe";
 }

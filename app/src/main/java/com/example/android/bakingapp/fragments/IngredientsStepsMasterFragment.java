@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.android.bakingapp.Constants;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapters.StepsAdapter;
 import com.example.android.bakingapp.models.Recipe;
@@ -77,7 +78,7 @@ public class IngredientsStepsMasterFragment extends Fragment implements StepsAda
 
         currentRecipeBundle = this.getArguments();
         if (currentRecipeBundle != null) {
-            recipe = getArguments().getParcelable("currentRecipe");
+            recipe = getArguments().getParcelable(Constants.KEY_CURRENT_RECIPE);
         }
 
         ButterKnife.bind(this, rootView);
@@ -95,7 +96,7 @@ public class IngredientsStepsMasterFragment extends Fragment implements StepsAda
                 IngredientsFragment ingredientsFragment = new IngredientsFragment();
                 ingredientsFragment.setArguments(currentRecipeBundle);
 
-                if (getResources().getBoolean(R.bool.isTablet)) {
+                if (getActivity().findViewById(R.id.steps_frag_container) != null) {
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.master_list_fragment, ingredientsFragment)
@@ -116,5 +117,11 @@ public class IngredientsStepsMasterFragment extends Fragment implements StepsAda
     // OnStepClickListener interface, calls a method in the host activity named onStepSelected
     public interface OnStepClickListener {
         void onStepSelected(Step clickedStep);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(Constants.KEY_CURRENT_RECIPE, recipe);
     }
 }

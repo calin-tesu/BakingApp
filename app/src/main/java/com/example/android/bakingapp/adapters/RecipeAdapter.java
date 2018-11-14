@@ -73,7 +73,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             int adapterPosition = getAdapterPosition();
             Recipe currentRecipe = recipeList.get(adapterPosition);
             Intent intent = new Intent(context, BakingDetailsActivity.class);
-            intent.putExtra("currentRecipe", currentRecipe);
+            intent.putExtra(Constants.KEY_CURRENT_RECIPE, currentRecipe);
             context.startActivity(intent);
 
             /* Save the clicked recipe name and ingredients in SharedPreferences
