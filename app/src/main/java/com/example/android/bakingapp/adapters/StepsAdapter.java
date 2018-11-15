@@ -1,8 +1,6 @@
 package com.example.android.bakingapp.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +10,9 @@ import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.models.Step;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Calin Tesu on 11/2/2018.

@@ -1,8 +1,6 @@
 package com.example.android.bakingapp.ui;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.bakingapp.Constants;
 import com.example.android.bakingapp.R;
@@ -10,6 +8,9 @@ import com.example.android.bakingapp.fragments.IngredientsStepsMasterFragment;
 import com.example.android.bakingapp.fragments.StepFragment;
 import com.example.android.bakingapp.models.Recipe;
 import com.example.android.bakingapp.models.Step;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 public class BakingDetailsActivity extends AppCompatActivity implements IngredientsStepsMasterFragment.OnStepClickListener {
 

@@ -3,8 +3,6 @@ package com.example.android.bakingapp.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +17,9 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Calin Tesu on 10/31/2018.
