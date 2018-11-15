@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import com.example.android.bakingapp.Constants;
 import com.example.android.bakingapp.R;
-import com.example.android.bakingapp.models.Ingredient;
 import com.example.android.bakingapp.models.Recipe;
 import com.example.android.bakingapp.ui.BakingDetailsActivity;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -78,27 +78,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
             /* Save the clicked recipe name and ingredients in SharedPreferences
             We will use this for updating the WidgetProvider with the last viewed recipe */
-            SharedPreferences.Editor editor = context.getSharedPreferences(Constants.KEY_INGREDIENTS_LIST, Context.MODE_PRIVATE).edit();
-            editor.putString("name", currentRecipe.getName());
+            SharedPreferences.Editor editor = context.getSharedPreferences(Constants.KEY_CURRENT_RECIPE, Context.MODE_PRIVATE).edit();
 
-            //Create a formatted String for the ingredients
-            List<Ingredient> ingredientList = currentRecipe.getIngredients();
-            Ingredient currentIngredient;
-            String ingredientsString = "";
-            for (int i = 0; i < ingredientList.size(); i++) {
-                currentIngredient = ingredientList.get(i);
-                ingredientsString = ingredientsString +
-                        //Capitalize only the first letter of the ingredient
-                        (currentIngredient.getIngredient().substring(0, 1).toUpperCase() +
-                                currentIngredient.getIngredient().substring(1).toLowerCase() +
-                                ": " + String.valueOf(currentIngredient.getQuantity()) +
-                                " " + currentIngredient.getMeasure() +
-                                "\n");
-            }
+            //use gson to store class objects into SharedPreferences
+            Gson gson = new Gson();
+            String jsonRecipe = gson.toJson(currentRecipe);
+            editor.putString(Constants.KEY_CURRENT_RECIPE, jsonRecipe);
 
-            editor.putString("ingredients", ingredientsString);
-            editor.commit();
+            editor.apply();
         }
     }
-
 }
